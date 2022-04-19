@@ -1,5 +1,5 @@
 # GroupServerApplication
-![image](https://user-images.githubusercontent.com/30270495/164105913-fcc6832f-7472-43f3-8ed5-fef052007d90.png)
+![image](https://user-images.githubusercontent.com/30270495/164106548-dd6888f7-9f35-4e15-b315-10e0491ff041.png)
 https://lucid.app/lucidchart/7a490dc1-8ff8-44d7-bdaa-4305a446c311/edit?invitationId=inv_afaaf127-6ea6-4a34-a468-52c1a7651ed6
 ### Server:
 - Attributes:
@@ -66,3 +66,4 @@ https://lucid.app/lucidchart/7a490dc1-8ff8-44d7-bdaa-4305a446c311/edit?invitatio
 
 # Extra:
 - The server has the "true" state of the group list. If the player changes its own attributes without the use of the methods, the server will still see them as before.
+- The methods regarding the server connection were not listed.
