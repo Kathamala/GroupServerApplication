@@ -1,4 +1,6 @@
 # GroupServerApplication
+![image](https://user-images.githubusercontent.com/30270495/164105913-fcc6832f-7472-43f3-8ed5-fef052007d90.png)
+https://lucid.app/lucidchart/7a490dc1-8ff8-44d7-bdaa-4305a446c311/edit?invitationId=inv_afaaf127-6ea6-4a34-a468-52c1a7651ed6
 ### Server:
 - Attributes:
 	- Group[] groups;
@@ -20,7 +22,7 @@
     		
 		- This gets called by "leave_group()" to actually remove the user from the group.
 
-### Client:
+### User (Client):
 - Attributes:
 	- Integer id;
 	- String name;
