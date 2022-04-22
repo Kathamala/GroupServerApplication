@@ -12,8 +12,7 @@ public class Main {
 		ServerInterface server = (ServerInterface) 
 				Naming.lookup("rmi://127.0.0.1:3005/HelloServerCallbak");
 
-		ClientInterface client = new Client();
-		
+		ClientInterface client = new Client(server);
 		server.registerClient(client);
 	}
 

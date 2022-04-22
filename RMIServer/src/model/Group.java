@@ -34,6 +34,21 @@ public class Group {
 		return -1;
 	}
 	
+	public String listUsers() {
+		String text = "";
+		
+		if(users.size() == 0) {
+			text += "==> No users in this group.\n";
+			return text;
+		}
+		
+		for(User u : users) {
+			text += "==> User " + u.getId() + ": " + u.getName() + "\n";
+		}
+		
+		return text;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

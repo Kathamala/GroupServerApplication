@@ -7,5 +7,5 @@ public interface ServerInterface extends Remote{
 
 	public void registerClient(ClientInterface client) throws RemoteException;
 	
-
+	public String listGroups() throws RemoteException;
 }

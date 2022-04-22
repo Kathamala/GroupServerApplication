@@ -8,17 +8,16 @@ import java.util.List;
 import model.GroupManager;
 import model.Message;
 
-
-
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
 	private static final long serialVersionUID = 1L;
 	private volatile List<ClientInterface> clients = new ArrayList<ClientInterface>();
+	GroupManager groupManager = new GroupManager();
 	
 	protected Server() throws RemoteException {
 		super();	
 		
-		new Notify().start();
+		//new Notify().start();
 	}
 
 	@Override
@@ -26,8 +25,12 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 			
 		clients.add(client);
 		System.out.println("Novo cliente registrado com sucesso! Total: "+clients.size());
+	}	
+
+	@Override
+	public String listGroups() throws RemoteException {
+		return groupManager.listGroups();
 	}
-	
 	
 	private class Notify extends Thread{
 		
@@ -63,6 +66,4 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 			
 		}
 	}
-
-	
 }

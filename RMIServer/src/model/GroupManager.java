@@ -43,4 +43,38 @@ public class GroupManager {
 		
 		g.removeUser(_user);
 	}	
+	
+	public String listGroups() {
+		String text = "";
+		if(groups.size() == 0) {
+			text += "====> No groups added.\n";
+			return text;
+		}
+		
+		for(Group g : groups) {
+			text += "====> Group " + g.getId() + ": " + g.getName() + "\n";
+			text += g.listUsers();
+		}
+		
+		return text;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
