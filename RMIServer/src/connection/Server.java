@@ -5,8 +5,10 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Group;
 import model.GroupManager;
 import model.Message;
+import model.User;
 
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
@@ -21,9 +23,12 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 	}
 
 	@Override
-	public void registerClient(ClientInterface client) throws RemoteException {
-			
+	public void registerClient(ClientInterface client, String username) throws RemoteException {
 		clients.add(client);
+		User new_user = new User();
+		new_user.setId(clients.indexOf(client));
+		new_user.setName(username);
+		groupManager.addUserWithoutGroup(new_user);
 		System.out.println("Novo cliente registrado com sucesso! Total: "+clients.size());
 	}	
 
@@ -31,6 +36,21 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 	public String listGroups() throws RemoteException {
 		return groupManager.listGroups();
 	}
+	
+	@Override
+	public String createGroup(String name) throws RemoteException {
+		Group g = new Group();
+		g.setName(name);
+		g.setId(groupManager.getGroups().size());
+		return groupManager.createGroup(g);
+	}
+	
+	@Override
+	public String joinGroup(String group_name, String user_name) throws RemoteException {
+		Group g = groupManager.findGroup(group_name);
+		User u = groupManager.findUser(user_name);
+		return groupManager.addUserToGroup(u, g);
+	}	
 	
 	private class Notify extends Thread{
 		

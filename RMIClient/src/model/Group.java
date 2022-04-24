@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Group {
 	private Integer id;
 	private String name;
-	private ArrayList<User> users = new ArrayList<User>();
+	private ArrayList<User> users;
 	
 	public Group() {
 		super();
