@@ -52,6 +52,13 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 		return groupManager.addUserToGroup(u, g);
 	}	
 	
+	@Override
+	public String leaveGroup(String user_name) throws RemoteException {
+		User u = groupManager.findUser(user_name);
+		Group g = u.getGroup() == null ? null : groupManager.findGroup(u.getGroup().getName());
+		return groupManager.removeUserFromGroup(u, g);
+	}	
+	
 	private class Notify extends Thread{
 		
 		public void run() {

@@ -74,16 +74,23 @@ public class GroupManager {
 		return text;
 	}
 	
-	public void removeUserFromGroup(User _user, Group _group) {
-		Group g = findGroup(_group.getName());
-		if(g == null) {
-			System.out.println("The group " + _group.getName() + " does not exists.");
-			return;
+	public String removeUserFromGroup(User _user, Group _group) {
+		String text = "";
+		
+		if(_group == null) {
+			text += "This user isn't part of any groups.";
 		}
-		//TODO:
-			// After removing user from group, update the reference from the user
-			// Add the user to the users_without_groups array
-		g.removeUser(_user);
+		else if(_user == null) {
+			text += "This user does not exists.";
+		}
+		else {
+			_group.removeUser(_user);	
+			_user.setGroup(null);
+			users_without_group.add(_user);
+			text += "User left the group";
+		}
+
+		return text;
 	}	
 	
 	public String listGroups() {

@@ -14,4 +14,6 @@ public interface ServerInterface extends Remote{
 	public String createGroup(String name) throws RemoteException;
 	
 	public String joinGroup(String group_name, String user_name) throws RemoteException;
+	
+	public String leaveGroup(String user_name) throws RemoteException;
 }

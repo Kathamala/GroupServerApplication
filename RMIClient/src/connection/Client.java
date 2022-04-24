@@ -49,6 +49,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 				System.out.println("1 - List Groups.");
 				System.out.println("2 - Create Group.");
 				System.out.println("3 - Join Group.");
+				System.out.println("4 - Leave Group.");
 				System.out.println("==========================");
 				option = sc.nextInt();
 				sc.nextLine();
@@ -80,6 +81,13 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 						e.printStackTrace();
 					}
 				}				
+				else if(option == 4) {
+					try {
+						leaveGroup();
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+				}				
 			}
 		}
 		
@@ -94,6 +102,10 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 		public void joinGroup(String name) throws RemoteException {
 			System.out.println(server.joinGroup(name, user.getName()));
 		}		
+		
+		public void leaveGroup() throws RemoteException {
+			System.out.println(server.leaveGroup(user.getName()));
+		}			
 	}	
 }
 
