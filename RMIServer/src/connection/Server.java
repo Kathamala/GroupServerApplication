@@ -24,13 +24,17 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 	}
 
 	@Override
-	public void registerClient(ClientInterface client, String username) throws RemoteException {
+	public boolean registerClient(ClientInterface client, String username) throws RemoteException {
+		if(groupManager.findUser(username) != null) {
+			return false;
+		}
 		clients.add(client);
 		User new_user = new User();
 		new_user.setId(clients.indexOf(client));
 		new_user.setName(username);
 		groupManager.addUserWithoutGroup(new_user);
 		System.out.println("Novo cliente registrado com sucesso! Total: "+clients.size());
+		return true;
 	}	
 
 	@Override

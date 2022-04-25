@@ -15,15 +15,21 @@ public class Main {
 		
 
 		Scanner sc = new Scanner(System.in);
-		
-		System.out.println("Please, inform your username: ");
-		String username = sc.nextLine();
+		String username = "";
 		
 		ClientInterface client = new Client(server);
-	
-		client.getUser().setName(username);
 		
-		server.registerClient(client, username);
+		System.out.println("Please, inform your username: ");
+		username = sc.nextLine();
+		
+		while(!server.registerClient(client, username)) {
+			System.out.println("This username is already used. Inform a new username: ");
+			username = sc.nextLine();
+		};
+		
+		sc.close();
+		
+		client.getUser().setName(username);
+		client.startApplication();
 	}
-
 }

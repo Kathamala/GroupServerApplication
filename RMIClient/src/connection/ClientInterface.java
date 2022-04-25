@@ -10,7 +10,9 @@ import model.User;
 public interface ClientInterface extends Remote {
 	
 	public void printMessage(Message message) throws RemoteException;
-
+	
+	public void startApplication() throws RemoteException;
+	
 	public User getUser() throws RemoteException;
 
 }

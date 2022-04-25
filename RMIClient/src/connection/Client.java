@@ -19,6 +19,11 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 		super();
 		// TODO Auto-generated constructor stub
 		server = _server;
+		//new Application().start();
+	}
+	
+	@Override
+	public void startApplication() throws RemoteException{
 		new Application().start();
 	}
 
