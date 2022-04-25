@@ -23,6 +23,18 @@ public class GroupManager {
 		return text;
 	}
 	
+	public boolean checkIfUserInGroup(User u, Group g) {
+		for(int i=0; i<groups.size(); i++) {
+			for(int j=0; j < groups.get(i).getUsers().size(); j++) {
+				if(groups.get(i).getUsers().get(j).getName().equals(u.getName())) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
 	public Group findGroup(String _name) {
 		for(Group g : groups) {
 			if(g.getName().equals(_name)) return g;
@@ -56,13 +68,9 @@ public class GroupManager {
 		else if(_user == null) {
 			text += "This user does not exists.";
 		}
-		else if(_user.getGroup() != null) {
-			text += "This user can't join another group, because it's already part of the group " + _user.getGroup().getName()
-					+ ". Leave this group to join another.";
-		}
 		else {
 			_group.addUser(_user);
-			_user.setGroup(_group);
+			_user.joinGroup(_group);
 			for(int i=0; i<users_without_group.size(); i++) {
 				if(users_without_group.get(i).getName().equals(_user.getName())) {
 					users_without_group.remove(i);
@@ -83,9 +91,12 @@ public class GroupManager {
 		else if(_user == null) {
 			text += "This user does not exists.";
 		}
+		else if(_user.findGroup(_group) == -1) {
+			text += "The user does not belong to this group.";
+		}
 		else {
 			_group.removeUser(_user);	
-			_user.setGroup(null);
+			_user.leaveGroup(_group);
 			users_without_group.add(_user);
 			text += "User left the group";
 		}

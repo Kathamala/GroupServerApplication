@@ -6,6 +6,7 @@ import java.util.Date;
 public class Message implements Serializable{
 	
 	private String message;
+	private String sender;
 	private Date date;
 	
 	public Message(String message) {
@@ -26,9 +27,17 @@ public class Message implements Serializable{
 		this.date = date;
 	}
 
+	public String getSender() {
+		return sender;
+	}
+
+	public void setSender(String sender) {
+		this.sender = sender;
+	}
+
 	@Override
 	public String toString() {
-		return "Message [message=" + message + ", date=" + date + "]";
+		return "[" + date + "] " + sender + ": " + message;
 	}
 	
 	

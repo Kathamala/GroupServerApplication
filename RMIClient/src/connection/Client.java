@@ -50,6 +50,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 				System.out.println("2 - Create Group.");
 				System.out.println("3 - Join Group.");
 				System.out.println("4 - Leave Group.");
+				System.out.println("5 - Send Message to Group.");
 				System.out.println("==========================");
 				option = sc.nextInt();
 				sc.nextLine();
@@ -82,13 +83,31 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 					}
 				}				
 				else if(option == 4) {
+					String group_name;
+					System.out.println("Inform the name of the group you'd like to leave: ");
+					group_name = sc.nextLine();					
 					try {
-						leaveGroup();
+						leaveGroup(group_name);
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					}
-				}				
+				}		
+				else if(option == 5) {
+					String group_name;
+					String message;
+					System.out.println("Inform the name of the group you'd like to send a message: ");
+					group_name = sc.nextLine();
+					System.out.println("Type the message: ");
+					message = sc.nextLine();
+					try {
+						sendMessage(group_name, message);
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+				}					
 			}
+			
+			System.exit(0);
 		}
 		
 		public void listGroups() throws RemoteException {
@@ -103,9 +122,13 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 			System.out.println(server.joinGroup(name, user.getName()));
 		}		
 		
-		public void leaveGroup() throws RemoteException {
-			System.out.println(server.leaveGroup(user.getName()));
+		public void leaveGroup(String name) throws RemoteException {
+			System.out.println(server.leaveGroup(name, user.getName()));
 		}			
+		
+		public void sendMessage(String group_name, String message) throws RemoteException {
+			System.out.println(server.sendMessage(group_name, user.getName(), message));
+		}				
 	}	
 }
 

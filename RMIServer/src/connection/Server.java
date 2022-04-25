@@ -3,6 +3,7 @@ package connection;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import model.Group;
@@ -53,11 +54,32 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 	}	
 	
 	@Override
-	public String leaveGroup(String user_name) throws RemoteException {
+	public String leaveGroup(String group_name, String user_name) throws RemoteException {
 		User u = groupManager.findUser(user_name);
-		Group g = u.getGroup() == null ? null : groupManager.findGroup(u.getGroup().getName());
+		Group g = u.getGroup() == null ? null : groupManager.findGroup(group_name);
 		return groupManager.removeUserFromGroup(u, g);
 	}	
+	
+	@Override
+	public String sendMessage(String destiny_group, String sender_user, String message) throws RemoteException {
+		//1. Check if user is in group
+		User user = groupManager.findUser(sender_user);
+		Group group = user.getGroup() == null ? null : groupManager.findGroup(destiny_group);
+		if(group == null || !groupManager.checkIfUserInGroup(user, group)) {
+			return "You are not in this group!";
+		}
+		
+		//2. Send message
+		for(User u : group.getUsers()) {
+			if(u.getName().equals(sender_user)) continue;
+			Message m = new Message(message);
+			m.setDate(new Date(System.currentTimeMillis()));
+			m.setSender(sender_user);
+			clients.get(u.getId()).printMessage(m);
+		}
+		
+		return "Message sent!";
+	}		
 	
 	private class Notify extends Thread{
 		
