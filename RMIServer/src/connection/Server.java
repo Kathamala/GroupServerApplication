@@ -18,9 +18,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 	GroupManager groupManager = new GroupManager();
 	
 	protected Server() throws RemoteException {
-		super();	
-		
-		//new Notify().start();
+		super();
 	}
 
 	@Override
@@ -79,44 +77,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 			Message m = new Message(message);
 			m.setDate(new Date(System.currentTimeMillis()));
 			m.setSender(sender_user);
+			m.setGroup(destiny_group);
 			clients.get(u.getId()).printMessage(m);
 		}
 		
 		return "Message sent!";
 	}		
-	
-	private class Notify extends Thread{
-		
-		public void run() {
-			
-			for(;;) {
-				
-				if(clients.size() > 0) {
-					
-					System.out.println("Notificando clientes");
-					
-					int i = 0;
-					for (ClientInterface helloClientInterface : clients) {
-						
-						try {
-							helloClientInterface.printMessage(new Message("Hello client " + (i++)));
-						} catch (RemoteException e) {
-							e.printStackTrace();
-						}
-					}
-					
-					
-					try {
-						Thread.sleep(15 * 1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					
-					
-				}
-				
-			}
-			
-		}
-	}
 }

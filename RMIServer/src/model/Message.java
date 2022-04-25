@@ -5,8 +5,10 @@ import java.util.Date;
 
 public class Message implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private String message;
 	private String sender;
+	private String group;
 	private Date date;
 	
 	public Message(String message) {
@@ -34,10 +36,21 @@ public class Message implements Serializable{
 	public void setSender(String sender) {
 		this.sender = sender;
 	}
+	
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
+	}
 
 	@Override
 	public String toString() {
-		return "[" + date + "] " + sender + ": " + message;
+		String text = "";
+		text += "======> Group:" + group + "\n";
+		text += "==> [" + date + "] " + sender + ": " + message;
+		return text;
 	}
 	
 	

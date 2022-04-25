@@ -3,8 +3,6 @@ package connection;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import model.User;
-
 public interface ServerInterface extends Remote{
 
 	public boolean registerClient(ClientInterface client, String username) throws RemoteException;

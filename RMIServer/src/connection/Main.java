@@ -17,7 +17,7 @@ public class Main {
 		
 		Naming.rebind("rmi://127.0.0.1:3005/HelloServerCallbak", server);
 		
-		System.out.println("RMI Callback Server Starterd.");
+		System.out.println("RMI Server Started.");
 		
 	}
 

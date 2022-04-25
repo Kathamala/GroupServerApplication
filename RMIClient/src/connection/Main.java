@@ -27,9 +27,7 @@ public class Main {
 			username = sc.nextLine();
 		};
 		
-		sc.close();
-		
-		client.getUser().setName(username);
+		client.setUsername(username);
 		client.startApplication();
 	}
 }

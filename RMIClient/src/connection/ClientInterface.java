@@ -4,8 +4,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import model.Message;
-import model.User;
-
 
 public interface ClientInterface extends Remote {
 	
@@ -13,6 +11,5 @@ public interface ClientInterface extends Remote {
 	
 	public void startApplication() throws RemoteException;
 	
-	public User getUser() throws RemoteException;
-
+	public void setUsername(String username) throws RemoteException;
 }

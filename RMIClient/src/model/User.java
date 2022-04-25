@@ -12,7 +12,7 @@ public class User {
 	}
 	
 	public void joinGroup(Group _group) {
-		if(findGroup(_group) == -1) {
+		if(findGroupIndex(_group) == -1) {
 			groups.add(_group);
 			System.out.println("You joined the group!");
 		}
@@ -22,7 +22,7 @@ public class User {
 	}
 	
 	public void leaveGroup(Group _group) {
-		int index = findGroup(_group); 
+		int index = findGroupIndex(_group); 
 		if(index != -1) {
 			groups.remove(index);
 			System.out.println("You left the group!");
@@ -32,7 +32,7 @@ public class User {
 		}
 	}
 	
-	public int findGroup(Group _group) {
+	public int findGroupIndex(Group _group) {
 		for(int i = 0; i < groups.size(); i++) {
 			if(groups.get(i).getName().equals(_group.getName())) {
 				return i;

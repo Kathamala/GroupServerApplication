@@ -5,21 +5,16 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
 import model.Message;
-import model.User;
-
-
 
 public class Client extends UnicastRemoteObject implements ClientInterface {
 
 	private static final long serialVersionUID = 1L;
 	private ServerInterface server;
-	private User user = new User();
+	private String username;
 	
 	protected Client(ServerInterface _server) throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 		server = _server;
-		//new Application().start();
 	}
 	
 	@Override
@@ -31,14 +26,13 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 	public void printMessage(Message message) throws RemoteException {
 		System.out.println(message);
 	}	
-	
-	@Override
-	public User getUser() {
-		return user;
+
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	private class Application extends Thread{
@@ -111,7 +105,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 					}
 				}					
 			}
-			
+
 			System.exit(0);
 		}
 		
@@ -124,15 +118,15 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 		}
 		
 		public void joinGroup(String name) throws RemoteException {
-			System.out.println(server.joinGroup(name, user.getName()));
+			System.out.println(server.joinGroup(name, username));
 		}		
 		
 		public void leaveGroup(String name) throws RemoteException {
-			System.out.println(server.leaveGroup(name, user.getName()));
+			System.out.println(server.leaveGroup(name, username));
 		}			
 		
 		public void sendMessage(String group_name, String message) throws RemoteException {
-			System.out.println(server.sendMessage(group_name, user.getName(), message));
+			System.out.println(server.sendMessage(group_name, username, message));
 		}				
 	}	
 }
