@@ -43,14 +43,15 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 			Scanner sc = new Scanner(System.in);
 			
 			while(option != 0) {
-				System.out.println("==========================");
+				System.out.println("==================================");
+				System.out.println("USER: " + username);
 				System.out.println("0 - Leave Application.");
 				System.out.println("1 - List Groups.");
 				System.out.println("2 - Create Group.");
 				System.out.println("3 - Join Group.");
 				System.out.println("4 - Leave Group.");
 				System.out.println("5 - Send Message to Group.");
-				System.out.println("==========================");
+				System.out.println("==================================");
 				option = sc.nextInt();
 				sc.nextLine();
 				

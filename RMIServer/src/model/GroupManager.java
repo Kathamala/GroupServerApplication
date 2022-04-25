@@ -23,12 +23,12 @@ public class GroupManager {
 		return text;
 	}
 	
-	public boolean checkIfUserInGroup(User u, Group g) {
-		for(int i=0; i<groups.size(); i++) {
-			for(int j=0; j < groups.get(i).getUsers().size(); j++) {
-				if(groups.get(i).getUsers().get(j).getName().equals(u.getName())) {
+	public boolean checkIfUserInGroup(User user, Group group) {
+		for(Group g : groups) {
+			for(User u : g.getUsers()) {
+				if(g.getName().equals(group.getName()) && u.getName().equals(user.getName())) {
 					return true;
-				}
+				};
 			}
 		}
 		
@@ -68,6 +68,9 @@ public class GroupManager {
 		else if(_user == null) {
 			text += "This user does not exists.";
 		}
+		else if(_user.findGroup(_group) != -1) {
+			text += "The user is already part of this group.";
+		}		
 		else {
 			_group.addUser(_user);
 			_user.joinGroup(_group);

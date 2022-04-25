@@ -48,8 +48,8 @@ public class Message implements Serializable{
 	@Override
 	public String toString() {
 		String text = "";
-		text += "======> Group:" + group;
-		text += "[" + date + "] " + sender + ": " + message;
+		text += "======> Group: " + group + "\n";
+		text += "==> [" + date + "] " + sender + ": " + message;
 		return text;
 	}
 	
