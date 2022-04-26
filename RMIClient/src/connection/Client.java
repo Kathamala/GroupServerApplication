@@ -21,7 +21,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 	public void startApplication() throws RemoteException{
 		new Application().start();
 	}
-
+ 
 	@Override
 	public void printMessage(Message message) throws RemoteException {
 		System.out.println(message);
