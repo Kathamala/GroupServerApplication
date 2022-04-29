@@ -100,7 +100,7 @@ public class GroupManager {
 		else {
 			_group.removeUser(_user);	
 			_user.leaveGroup(_group);
-			users_without_group.add(_user);
+			if(_user.getGroup().size() == 0) users_without_group.add(_user);
 			text += "User left the group";
 		}
 
