@@ -1,5 +1,5 @@
 # GroupServerApplication
-* Command to run application (must be on src folder): ```javac connection/*.java && java connection/Main```
+* Command to run application (must be on src folder): ```javac connection/*.java model/*.java && java connection/Main```
 * Start with the server, then run the clients.
 
 ![Class Diagram GroupServerApplication (1)](https://user-images.githubusercontent.com/30270495/166165852-c1558d00-d2e9-494c-96fa-93843c8b3c27.png)
