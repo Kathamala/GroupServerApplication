@@ -1,0 +1,3 @@
+br\imd\rest\Client.class
+br\imd\rest\expections\RestRequestException.class
+br\imd\rest\HttpUtils.class
