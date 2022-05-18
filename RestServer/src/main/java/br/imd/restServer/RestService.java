@@ -10,6 +10,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import br.imd.model.Group;
 import br.imd.model.GroupManager;
 import br.imd.model.HelloWorld;
 import br.imd.model.User;
@@ -42,9 +43,50 @@ public class RestService {
 		
 		System.out.println("Novo cliente registrado com sucesso!");		
 
-		return Response.ok("Novo cliente registrado com sucesso!").build();
+		return Response.ok("Seja bem-vindo, " + username + "!").build();
 	}
 
+	@GET
+	@Path("listGroups")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listGroups() {
+		return Response.ok(groupManager.listGroups()).build();
+	}
+	
+	@GET
+	@Path("createGroup/{groupname}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createGroup(@PathParam("groupname") String groupname) {
+		Group g = new Group();
+		g.setName(groupname);
+		g.setId(groupManager.getGroups().size());
+		
+		return Response.ok(groupManager.createGroup(g)).build();
+	}	
+	
+	@GET
+	@Path("joinGroup")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response joinGroup(@QueryParam("groupname") String groupname, 
+			@QueryParam("username") String username) {
+		Group g = groupManager.findGroup(groupname);
+		User u = groupManager.findUser(username);
+		
+		return Response.ok(groupManager.addUserToGroup(u, g)).build();
+	}	
+	
+	@GET
+	@Path("leaveGroup")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response leaveGroup(@QueryParam("groupname") String groupname, 
+			@QueryParam("username") String username) {
+		User u = groupManager.findUser(username);
+		Group g = u.getGroup() == null ? null : groupManager.findGroup(groupname);
+		
+		return Response.ok(groupManager.removeUserFromGroup(u, g)).build();
+	}	
+	
+	/*
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response helloWorld() {
@@ -85,5 +127,5 @@ public class RestService {
 		HelloWorld helloWorld = new HelloWorld("Hello "+nome+" !");
 
 		return Response.ok(helloWorld).build();
-	}
+	}*/
 }
