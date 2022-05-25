@@ -6,9 +6,14 @@ public class User {
 	private Integer id;
 	private String name;
 	private ArrayList<Group> groups = new ArrayList<Group>();
+	private ArrayList<Message> recievedMessages = new ArrayList<Message>();
 
 	public User() {
 		super();
+	}
+	
+	public void addRecievedMessage(Message text) {
+		recievedMessages.add(text);
 	}
 	
 	public void joinGroup(Group _group) {
@@ -59,5 +64,8 @@ public class User {
 	}
 	public void setGroup(ArrayList<Group> group) {
 		this.groups = group;
+	}
+	public ArrayList<Message> getRecievedMessages(){
+		return recievedMessages;
 	}
 }

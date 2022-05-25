@@ -80,6 +80,10 @@ public class GroupManager {
 				}
 			}
 			text += "User added to group!";
+			
+			for(Message m : _group.getMessages()) {
+				_user.addRecievedMessage(m);
+			}
 		}
 
 		return text;
@@ -122,6 +126,46 @@ public class GroupManager {
 		
 		return text;
 	}
+	
+	public String addMessage(String groupname, String username, String text) {
+		User u = findUser(username);
+		
+		Group g = u.getGroup() == null ? null : findGroup(groupname);
+		if(g == null || !checkIfUserInGroup(u, g)) {
+			return "You are not in this group!";
+		}
+
+		Message m = new Message(text);
+		m.setSender(username);
+		m.setGroup(groupname);
+		
+		g.addMessage(m);
+		u.addRecievedMessage(m);
+		return "Message sent!";
+	}
+	
+	public String getMessages(String username) {
+		User u = findUser(username);
+		String text = "";
+		
+		boolean firstMessageOfGroup = true;
+		
+		for(Group g : u.getGroup()) {
+			firstMessageOfGroup = true;
+			for(Message m : g.getMessages()) {
+				if(!u.getRecievedMessages().contains(m)) {
+					if(firstMessageOfGroup) {
+						text += "======> Group: " + g.getName() + "\n";
+						firstMessageOfGroup = false;
+					}
+					text += "==> [" + m.getDate() + "] " + m.getSender() + ": " + m.getMessage();
+					u.addRecievedMessage(m);
+				}
+			}
+		}
+		
+		return text != "" ? text : null;
+	}
 
 	public ArrayList<Group> getGroups() {
 		return groups;
@@ -131,3 +175,9 @@ public class GroupManager {
 		users_without_group.add(_user);
 	}
 }
+
+
+
+
+
+

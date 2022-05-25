@@ -6,9 +6,14 @@ public class Group {
 	private Integer id;
 	private String name;
 	private ArrayList<User> users = new ArrayList<User>();
+	private ArrayList<Message> messages = new ArrayList<Message>();
 	
 	public Group() {
 		super();
+	}
+	
+	public void addMessage(Message text) {
+		messages.add(text);
 	}
 	
 	public void addUser(User _user) {
@@ -66,5 +71,8 @@ public class Group {
 	}
 	public void setUsers(ArrayList<User> users) {
 		this.users = users;
+	}
+	public ArrayList<Message> getMessages(){
+		return messages;
 	}
 }

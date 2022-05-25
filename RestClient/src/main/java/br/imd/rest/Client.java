@@ -10,74 +10,21 @@ public class Client {
 
 	static Map<String, String> headerParams;
 	static String username;
+	static int option = -1;
 	
 	public Client() {
 		headerParams = new HashMap<String, String>();
 		headerParams.put("accept", "application/json");
-	}
-	
-	public void helloWorld() throws RestRequestException {
-
-		String uri = "http://localhost:8080/RestServer/restapi/groupServer";
-		Map<String, String> headerParams = new HashMap<String, String>();
-
-		headerParams.put("accept", "application/json");
-
-		String response = HttpUtils.httpGetRequest(uri, headerParams);
-
-		System.out.println(response);
-	}
-	/*
-	public void helloPeople() throws RestRequestException {
-
-		String name = "Jorge";
-		String uri = "http://localhost:8080/RestServer/restapi/groupServer/hello-people/"+name;
-		Map<String, String> headerParams = new HashMap<String, String>();
-
-		headerParams.put("accept", "application/json");
-
-		String response = HttpUtils.httpGetRequest(uri, headerParams);
-
-		System.out.println(response);
-	}
-	
-	public void helloPeople2() throws RestRequestException {
-
-		String name = "Jorge";
-		String sobrenome = "Silva";
-		String uri = "http://localhost:8080/RestServer/restapi/groupServer/hello-people2"
-				+ "?nome="+name+"&sobrenome="+sobrenome;
-		Map<String, String> headerParams = new HashMap<String, String>();
-
-		headerParams.put("accept", "application/json");
-
-		String response = HttpUtils.httpGetRequest(uri, headerParams);
-
-		System.out.println(response);
-	}
-	
-	
-	public void helloPOST() throws RestRequestException {
-
-		String uri = "http://localhost:8080/RestServer/restapi/groupServer";
-		Map<String, String> headerParams = new HashMap<String, String>();
-
-		headerParams.put("accept", "application/json");
-		headerParams.put("content-type", "text/plain");
-		
-		String response = HttpUtils.httpPostRequest(uri, headerParams, "Jorge", 200);
-
-		System.out.println(response);
-	}
-	*/
-	
+	}	
 
 	public static void main(String[] args) throws RestRequestException {
 		Client restClient = new Client();
 
 		restClient.setUsername();
 		
-		int option = -1;
+		restClient.new MessageListener().start();
+		
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		
 		while(option != 0) {
@@ -127,6 +74,7 @@ public class Client {
 	}
 	
 	public void setUsername() throws RestRequestException {
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		String _username = "";
 		
@@ -179,9 +127,7 @@ public class Client {
 		System.out.println(response);		
 	}			
 	
-	public static void sendMessage(String groupname, String message) throws RestRequestException {
-		//System.out.println(server.sendMessage(group_name, username, message));
-		
+	public static void sendMessage(String groupname, String message) throws RestRequestException {	
 		message = message.replaceAll(" ", "+");
 		
 		String uri = "http://localhost:8080/RestServer/restapi/groupServer/sendMessage"
@@ -189,6 +135,31 @@ public class Client {
 		String response = HttpUtils.httpGetRequest(uri, headerParams);
 		
 		System.out.println(response);		
+	}
+	
+	private class MessageListener extends Thread{
+		
+		String uri = "http://localhost:8080/RestServer/restapi/groupServer/recieveMessages/"
+				+username;
+		
+		public void run() {
+			while(option != 0) {
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				String response = null;
+				try {
+					response = HttpUtils.httpGetRequest(uri, headerParams);
+				} catch (RestRequestException e) {
+					e.printStackTrace();
+				}
+				
+				if(response != null && response != "" && response != "\n" && response.length() != 0) System.out.println(response);
+			}
+		}
 	}
 }
 

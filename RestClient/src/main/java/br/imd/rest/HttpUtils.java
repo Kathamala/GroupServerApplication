@@ -18,7 +18,6 @@ import br.imd.rest.expections.RestRequestException;
 public class HttpUtils {
 
 	public HttpUtils() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static String httpPostRequest(String uri, Map<String, String> headerParams,
