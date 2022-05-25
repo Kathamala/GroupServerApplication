@@ -113,7 +113,7 @@ public class Client {
 				System.out.println("Inform the name of the group you'd like to leave: ");
 				group_name = sc.nextLine();					
 				leaveGroup(group_name);
-			}/*		
+			}
 			else if(option == 5) {
 				String group_name;
 				String message;
@@ -122,7 +122,7 @@ public class Client {
 				System.out.println("Type the message: ");
 				message = sc.nextLine();
 				sendMessage(group_name, message);
-			}		*/
+			}
 		}		
 	}
 	
@@ -179,9 +179,22 @@ public class Client {
 		System.out.println(response);		
 	}			
 	
-	/*
-	public void sendMessage(String group_name, String message) throws RemoteException {
-		System.out.println(server.sendMessage(group_name, username, message));
+	public static void sendMessage(String groupname, String message) throws RestRequestException {
+		//System.out.println(server.sendMessage(group_name, username, message));
+		
+		message = message.replaceAll(" ", "+");
+		
+		String uri = "http://localhost:8080/RestServer/restapi/groupServer/sendMessage"
+				+ "?groupname="+groupname+"&username="+username+"&message="+message;
+		String response = HttpUtils.httpGetRequest(uri, headerParams);
+		
+		System.out.println(response);		
 	}
-	 */
 }
+
+
+
+
+
+
+

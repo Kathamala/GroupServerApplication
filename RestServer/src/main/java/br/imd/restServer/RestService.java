@@ -86,6 +86,18 @@ public class RestService {
 		return Response.ok(groupManager.removeUserFromGroup(u, g)).build();
 	}	
 	
+	@GET
+	@Path("sendMessage")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response sendMessage(@QueryParam("groupname") String groupname, 
+			@QueryParam("username") String username,
+			@QueryParam("message") String message) {
+		
+		System.out.println(message);
+		
+		return Response.ok().build();
+	}		
+	
 	/*
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
