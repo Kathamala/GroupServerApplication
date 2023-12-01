@@ -13,27 +13,42 @@ import model.User;
 
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
-	private static final long serialVersionUID = 1L;
-	private volatile List<ClientInterface> clients = new ArrayList<ClientInterface>();
-	GroupManager groupManager = new GroupManager();
-	
-	protected Server() throws RemoteException {
-		super();
-	}
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public boolean registerClient(ClientInterface client, String username) throws RemoteException {
-		if(groupManager.findUser(username) != null) {
-			return false;
-		}
-		clients.add(client);
-		User new_user = new User();
-		new_user.setId(clients.indexOf(client));
-		new_user.setName(username);
-		groupManager.addUserWithoutGroup(new_user);
-		System.out.println("Novo cliente registrado com sucesso! Total: "+clients.size());
-		return true;
-	}	
+    //@ spec_public
+    private volatile List<ClientInterface> clients;
+    //@ spec_public
+    private GroupManager groupManager;
+
+    //@ requires true;
+    //@ ensures clients != null && clients.isEmpty();
+    //@ ensures groupManager != null;
+    //@ pure
+    protected Server() throws RemoteException {
+        clients = new ArrayList<ClientInterface>();
+        groupManager = new GroupManager();
+    }
+
+    //@ requires client != null && username != null;
+    //@ requires groupManager != null && clients != null;
+    //@ ensures \result == true || \result == false;
+    //@ ensures (\result == true) ==> (clients.size() == \old(clients.size()) + 1);
+    //@ ensures (\result == true) ==> (clients.get(\old(clients.size()+1)) == clients.get(clients.size()));
+    //@ ensures (\result == false) ==> clients.size() == \old(clients.size());
+    //@ ensures (\result == true || \result == false) ==> (\forall int i; 0 <= i && i < \old(clients.size()); clients.get(i) == \old(clients.get(i)));
+    @Override
+    public boolean registerClient(ClientInterface client, String username) throws RemoteException {
+        if (groupManager.findUser(username) != null) {
+            return false;
+        }
+        clients.add(client);
+        User new_user = new User();
+        new_user.setId(clients.indexOf(client));
+        new_user.setName(username);
+        groupManager.addUserWithoutGroup(new_user);
+        System.out.println("Novo cliente registrado com sucesso! Total: " + clients.size());
+        return true;
+    }
 
 	@Override
 	public String listGroups() throws RemoteException {

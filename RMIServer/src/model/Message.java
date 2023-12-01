@@ -6,55 +6,80 @@ import java.util.Date;
 public class Message implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+	//@ spec_public
 	private String message;
-	private String sender;
-	private String group;
+	//@ spec_public
+	private String sender = "";
+	//@ spec_public
+	private String group = "";
+	//@ spec_public
 	private Date date;
-	
-	public Message(String message) {
-		this.message = message;
+
+	//@ public normal_behavior
+	//@ requires mes != null;
+	//@ ensures message.equals(mes);
+	//@ ensures date != null;
+	//@ pure
+	public Message(String mes) {
+		this.message = mes;
 		this.date = new Date();
 	}
-	
+
+	//@ ensures \result == message;
+	//@ pure
 	public String getMessage() {
 		return message;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+
+	//@ requires mes != null;
+	//@ ensures message.equals(mes);
+	//@ assigns message;
+	public void setMessage(String mes) {
+		this.message = mes;
 	}
+
+	//@ ensures \result == date;
+	//@ pure
 	public Date getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
 
+	//@ requires dat != null;
+	//@ ensures date != null;
+	//@ assigns date;
+	public void setDate(Date dat) { this.date = new Date(dat.getTime());}
+
+	//@ ensures \result == sender;
+	//@ pure
 	public String getSender() {
 		return sender;
 	}
 
-	public void setSender(String sender) {
-		this.sender = sender;
+	//@ requires sen != null;
+	//@ ensures sender.equals(sen);
+	//@ assigns sender;
+	public void setSender(String sen) {
+		this.sender = sen;
 	}
-	
+
+	//@ ensures \result == this.group;
+	//@ pure
 	public String getGroup() {
 		return group;
 	}
 
-	public void setGroup(String group) {
-		this.group = group;
+	//@ requires gro != null;
+	//@ ensures group.equals(gro);
+	//@ assigns group;
+	public void setGroup(String gro) {
+		this.group = gro;
 	}
 
-	@Override
-	public String toString() {
+	//@ ensures \result != null;
+	public String _toString() {
 		String text = "";
 		text += "======> Group: " + group + "\n";
 		text += "==> [" + date + "] " + sender + ": " + message;
 		return text;
 	}
-	
-	
-	
-	
-
 }
