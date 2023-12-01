@@ -22,6 +22,8 @@ public class User {
 	}
 
 	//@ requires _group != null;
+	//@ requires _group.getUsers() != null;
+	//@ requires _group.getName() != null;
 	//@ ensures groups.size() >= \old(groups.size());
 	public void joinGroup(Group _group) {
 		if(findGroup(_group) == -1) {
@@ -66,6 +68,7 @@ public class User {
 	}
 
 	//@ requires id != null;
+	//@ requires id >= 0;
 	//@ ensures this.id.equals(id);
 	//@ assigns this.id;
 	public void setId(Integer id) {
@@ -78,6 +81,7 @@ public class User {
 	}
 
 	//@ requires name != null;
+	//@ requires name.length() > 2;
 	//@ ensures this.name.equals(name);
 	//@ assigns this.name;
 	public void setName(String name) {
