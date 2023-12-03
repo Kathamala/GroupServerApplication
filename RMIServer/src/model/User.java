@@ -12,7 +12,9 @@ public class User {
 
 	//@ public normal_behavior
 	//@ requires name != null;
+	//@ requires name.length() > 2;
 	//@ requires id >= 0;
+	//@ requires id <= Integer.MAX_VALUE;
 	//@ ensures this.name.equals(name);
 	//@ ensures this.id == id;
 	public User(int id, String name) {

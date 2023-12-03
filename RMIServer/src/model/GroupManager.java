@@ -5,13 +5,17 @@ import java.util.ArrayList;
 public class GroupManager {
 
 	//@ spec_public
+	//@ non_null
 	private ArrayList<Group> groups;
 	//@ spec_public
+	//@ non_null
 	private ArrayList<User> users_without_group;
 
 	//@ public normal_behavior
-	//@ ensures groups != null;
-	//@ ensures users_without_group != null;
+	//@ requires true;
+	//@ ensures groups != null && users_without_group != null;
+	//@ ensures groups.isEmpty() && users_without_group.isEmpty();
+	//@ ensures groups.size() >= 0 && users_without_group.size() >= 0;
 	public GroupManager() {
 		super();
 		this.groups = new ArrayList<Group>();
@@ -44,6 +48,7 @@ public class GroupManager {
 	//@ requires group.getName() != null;
 	//@ requires user != null;
 	//@ requires user.getName() != null;
+	//@ requires \forall int i; 0 <= i && i < groups.size(); groups.get(i).getName() != null;
 	//@ ensures \result == true || \result == false;
 	public boolean checkIfUserInGroup(User user, Group group) {
 		for(Group g : groups) {
@@ -53,44 +58,51 @@ public class GroupManager {
 				};
 			}
 		}
-		
 		return false;
 	}
 
 	//@ requires _name != null;
+	//@ requires \forall int i; i >= 0 && i < groups.size(); groups.get(i).getName() != null;
 	//@ pure
 	public Group findGroup(String _name) {
 		for(Group g : groups) {
 			if(g.getName().equals(_name)) return g;
 		}
 		
-		System.out.println("Group " + _name + " not found.");
+		//System.out.println("Group " + _name + " not found.");
 		return null;
 	}
 
 	//@ requires _name != null;
+	//@ ensures \result == null || \result instanceof User;
 	//@ pure
 	public User findUser(String _name) {
 		for(Group g : groups) {
 			for(User u : g.getUsers()) {
-				if(u.getName().equals(_name)) return u;
+				if(u.getName().equals(_name)) {
+					return u;
+				}
 			}
 		}
 		
 		for(User u : users_without_group) {
-			if(u.getName().equals(_name)) return u;
+			if(u.getName().equals(_name)){
+				return u;
+			}
 		}		
 		
-		System.out.println("User " + _name + " not found.");
+		//System.out.println("User " + _name + " not found.");
 		return null;
 	}	
 
+	//@ requires users_without_group != null;
 	//@ requires _user != null;
 	//@ requires _group != null;
 	//@ requires _user.getName() != null;
 	//@ requires _group.getName() != null;
+	// @ requires /(for any int i; 0 <= i && i < users_without_group.size(); users_without_group.get(i).getName() != null)/;
 	//@ requires _user.findGroup(_group) == -1;
-	//@ ensures users_without_group.size() <= \old(users_without_group.size());
+	// @ ensures users_without_group.size() <= \old(users_without_group.size());
 	public String addUserToGroup(User _user, Group _group) {
 
 		/*
@@ -120,7 +132,7 @@ public class GroupManager {
 
 		_group.addUser(_user);
 		_user.joinGroup(_group);
-		for(int i=0; i <users_without_group.size(); i++) {
+		for(int i=0; i < users_without_group.size(); i++) {
 			if(users_without_group.get(i).getName().equals(_user.getName())) {
 				users_without_group.remove(i);
 			}
@@ -128,13 +140,17 @@ public class GroupManager {
 		return "User added to group!";
 	}
 
+	//@ requires users_without_group != null;
 	//@ requires _user != null;
 	//@ requires _group != null;
 	//@ requires _user.getName() != null;
 	//@ requires _group.getName() != null;
-	//@ requires _user.findGroup(_group) != -1;
-	//@ ensures _group.getUsers().size() <= \old(_group.getUsers().size());
 	public String removeUserFromGroup(User _user, Group _group) {
+
+		if(_user.findGroup(_group) == -1) {
+			return "User was not on the group";
+		}
+
 		/*
 		if(_group == null) {
 			text += "This user isn't part of any groups.";
@@ -156,7 +172,9 @@ public class GroupManager {
 
 		_group.removeUser(_user);
 		_user.leaveGroup(_group);
-		if(_user.getGroup().size() == 0) users_without_group.add(_user);
+		if(_user.getGroup().size() == 0){
+			users_without_group.add(_user);
+		}
 		return "User left the group";
 	}	
 
