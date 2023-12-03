@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class Main {
 
+	//@ signals_only RemoteException, MalformedURLException, NotBoundException;
 	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
 		
 		ServerInterface server = (ServerInterface) 
