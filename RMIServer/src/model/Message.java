@@ -13,16 +13,14 @@ public class Message implements Serializable{
 	//@ spec_public
 	private String group = "";
 	//@ spec_public
-	private Date date;
+	private Date date = new Date();
 
 	//@ public normal_behavior
 	//@ requires mes != null;
 	//@ ensures message.equals(mes);
-	//@ ensures date != null;
 	//@ pure
 	public Message(String mes) {
 		this.message = mes;
-		this.date = new Date();
 	}
 
 	//@ ensures \result == message;
@@ -33,7 +31,6 @@ public class Message implements Serializable{
 
 	//@ requires mes != null;
 	//@ ensures message.equals(mes);
-	//@ assigns message;
 	public void setMessage(String mes) {
 		this.message = mes;
 	}
@@ -46,8 +43,9 @@ public class Message implements Serializable{
 
 	//@ requires dat != null;
 	//@ ensures date != null;
-	//@ assigns date;
-	public void setDate(Date dat) { this.date = new Date(dat.getTime());}
+	public void setDate(Date dat) {
+		this.date = dat;
+	}
 
 	//@ ensures \result == sender;
 	//@ pure
@@ -57,7 +55,6 @@ public class Message implements Serializable{
 
 	//@ requires sen != null;
 	//@ ensures sender.equals(sen);
-	//@ assigns sender;
 	public void setSender(String sen) {
 		this.sender = sen;
 	}
@@ -70,7 +67,6 @@ public class Message implements Serializable{
 
 	//@ requires gro != null;
 	//@ ensures group.equals(gro);
-	//@ assigns group;
 	public void setGroup(String gro) {
 		this.group = gro;
 	}
