@@ -9,34 +9,49 @@ import model.Message;
 public class Client extends UnicastRemoteObject implements ClientInterface {
 
 	private static final long serialVersionUID = 1L;
+
+	//@ spec_public
 	private ServerInterface server;
+	//@ spec_public
 	private String username;
-	
+
+	//@ requires _server != null;
+	//@ ensures server.equals(_server);
 	protected Client(ServerInterface _server) throws RemoteException {
 		super();
 		server = _server;
 	}
-	
+
 	@Override
-	public void startApplication() throws RemoteException{
+	public void startApplication() throws RemoteException {
 		new Application().start();
 	}
- 
+
+	//@ also requires message != null;
+	//@ requires message.getMessage() != null && message.getMessage().length() > 2;
+	//@ requires message.getSender() != null && message.getSender().length() > 2;
+	//@ requires message.getGroup() != null && message.getGroup().length() > 2;
+	//@ ensures true;
+	//@ signals_only RemoteException;
+	//@ signals (RemoteException) false;
 	@Override
 	public void printMessage(Message message) throws RemoteException {
 		System.out.println(message);
-	}	
+	}
 
+	//@ ensures true;
 	public String getUsername() {
 		return username;
 	}
 
+	//@ also requires username != null && username.length() > 2;
+	//@ also ensures this.username.equals(username);
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-	private class Application extends Thread{
-		
+	private class Application extends Thread {
+
 		public void run() {
 			
 			int option = -1;
