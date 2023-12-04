@@ -13,8 +13,7 @@ public class Group {
 
 	//@ public normal_behavior
 	//@ requires name != null;
-	//@ requires id >= 0;
-	//@ requires id <= Integer.MAX_VALUE;
+	//@ requires id >= 0 && id <= Integer.MAX_VALUE;
 	//@ requires name.length() > 2;
 	//@ ensures this.name.equals(name);
 	//@ ensures this.id == id;
@@ -24,9 +23,9 @@ public class Group {
 		this.name = name;
 	}
 
-
 	//@ requires _user != null;
-	//@ ensures users.size() >= \old(users.size());
+	//@ ensures users.size() == \old(users.size()) + 1;
+	//@ ensures \forall int i; 0 <= i && i < \old(users.size()); users.get(i) == \old(users.get(i));
 	public void addUser(User _user) {
 		users.add(_user);
 		System.out.println("User added!");
@@ -44,7 +43,6 @@ public class Group {
 
 	//@ requires _user != null;
 	//@ ensures \result >= -1 && \result < users.size();
-	//@ ensures \result < users.size();
 	//@ pure
 	public int findUserIndex(User _user) {
 		for(int i=0; i<users.size(); i++) {
@@ -56,7 +54,7 @@ public class Group {
 		return -1;
 	}
 
-	//@ pure
+	//@ ensures \result != null;
 	public String listUsers() {
 		String text = "";
 		
@@ -79,10 +77,8 @@ public class Group {
 	}
 
 	//@ requires id != null;
-	//@ requires id >= 0;
-	//@ requires id <= Integer.MAX_VALUE;
+	//@ requires id >= 0 && id <= Integer.MAX_VALUE;
 	//@ ensures this.id.equals(id);
-	//@ assigns this.id;
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -96,7 +92,6 @@ public class Group {
 	//@ requires name != null;
 	//@ requires name.length() > 2;
 	//@ ensures this.name.equals(name);
-	//@ assigns this.name;
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -112,7 +107,6 @@ public class Group {
 	//@ requires \forall int i; 0 <= i && i < users.size(); users.get(i) != null;
 	//@ requires \forall int i; 0 <= i && i < users.size(); users.get(i).getName() != null;
 	//@ ensures this.users.equals(users);
-	//@ assigns this.users;
 	public void setUsers(ArrayList<User> users) {
 		this.users = users;
 	}
