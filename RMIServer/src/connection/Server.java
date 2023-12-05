@@ -20,7 +20,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     //@ spec_public
     private GroupManager groupManager;
 
-    //@ requires true;
     //@ ensures clients != null && clients.isEmpty();
     //@ ensures groupManager != null;
     //@ pure

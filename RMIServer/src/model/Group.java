@@ -14,7 +14,6 @@ public class Group {
 	//@ public normal_behavior
 	//@ requires name != null;
 	//@ requires id >= 0 && id <= Integer.MAX_VALUE;
-	//@ requires name.length() > 2;
 	//@ ensures this.name.equals(name);
 	//@ ensures this.id == id;
 	public Group(int id, String name) {
@@ -62,7 +61,7 @@ public class Group {
 			text += "==> No users in this group.\n";
 			return text;
 		}
-		
+
 		for(User u : users) {
 			text += "==> User " + u.getId() + ": " + u.getName() + "\n";
 		}
@@ -90,7 +89,6 @@ public class Group {
 	}
 
 	//@ requires name != null;
-	//@ requires name.length() > 2;
 	//@ ensures this.name.equals(name);
 	public void setName(String name) {
 		this.name = name;
