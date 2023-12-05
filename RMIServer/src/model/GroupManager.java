@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.rmi.RemoteException;
 
 public class GroupManager {
 
@@ -28,20 +29,18 @@ public class GroupManager {
 	//@ requires findGroup(_group.getName()) == null;
 	//@ ensures groups.size() >= \old(groups.size());
 	public String createGroup(Group _group) {
-		String text = "";
-		
+
 		if(_group.getId() == null || _group.getName() == null) {
-			text += "Can't create a group with null id or name.";
+			return  "Can't create a group with null id or name.";
 		}
-		else if(findGroup(_group.getName()) != null) {
-			text += "A group with this name already exists.";
+		try {
+			Group g = findGroup(_group.getName());
+		} catch (RemoteException e) {
+			return "A group with this name already exists.";
 		}
-		else {
-			groups.add(_group);
-			text += "Group Created!";
-		}
-		
-		return text;
+
+		groups.add(_group);
+		return "Group Created!";
 	}
 
 	//@ requires group != null;
@@ -62,21 +61,21 @@ public class GroupManager {
 	}
 
 	//@ requires _name != null;
-	//@ requires \forall int i; i >= 0 && i < groups.size(); groups.get(i).getName() != null;
+	// @ signals_only RemoteException;
 	//@ pure
-	public Group findGroup(String _name) {
+	public Group findGroup(String _name) throws RemoteException{
 		for(Group g : groups) {
 			if(g.getName().equals(_name)) return g;
 		}
 		
 		//System.out.println("Group " + _name + " not found.");
-		return null;
+		 throw new RemoteException("Group " + _name + " not found.");
 	}
 
 	//@ requires _name != null;
-	//@ ensures \result == null || \result instanceof User;
+	// @ signals_only RemoteException;
 	//@ pure
-	public User findUser(String _name) {
+	public User findUser(String _name) throws RemoteException{
 		for(Group g : groups) {
 			for(User u : g.getUsers()) {
 				if(u.getName().equals(_name)) {
@@ -92,7 +91,7 @@ public class GroupManager {
 		}		
 		
 		//System.out.println("User " + _name + " not found.");
-		return null;
+		throw new RemoteException("User " + _name + " not found.");
 	}	
 
 	//@ requires users_without_group != null;
@@ -100,36 +99,8 @@ public class GroupManager {
 	//@ requires _group != null;
 	//@ requires _user.getName() != null;
 	//@ requires _group.getName() != null;
-	// @ requires /(for any int i; 0 <= i && i < users_without_group.size(); users_without_group.get(i).getName() != null)/;
 	//@ requires _user.findGroup(_group) == -1;
-	// @ ensures users_without_group.size() <= \old(users_without_group.size());
 	public String addUserToGroup(User _user, Group _group) {
-
-		/*
-		if(_group == null) {
-			text += "This group does not exists.";
-		}
-		else if(_user == null) {
-			text += "This user does not exists.";
-		}
-
-		else if(_user.findGroup(_group) != -1) {
-			text += "The user is already part of this group.";
-		}
-
-		else {
-			_group.addUser(_user);
-			_user.joinGroup(_group);
-			for(int i=0; i<users_without_group.size(); i++) {
-				if(users_without_group.get(i).getName().equals(_user.getName())) {
-					users_without_group.remove(i);
-				}
-			}
-			text += "User added to group!";
-		}
-
-		 */
-
 		_group.addUser(_user);
 		_user.joinGroup(_group);
 		for(int i=0; i < users_without_group.size(); i++) {
@@ -151,25 +122,6 @@ public class GroupManager {
 			return "User was not on the group";
 		}
 
-		/*
-		if(_group == null) {
-			text += "This user isn't part of any groups.";
-		}
-		else if(_user == null) {
-			text += "This user does not exists.";
-		}
-		else if(_user.findGroup(_group) == -1) {
-			text += "The user does not belong to this group.";
-		}
-		else {
-			_group.removeUser(_user);	
-			_user.leaveGroup(_group);
-			if(_user.getGroup().size() == 0) users_without_group.add(_user);
-			text += "User left the group";
-		}
-
-		 */
-
 		_group.removeUser(_user);
 		_user.leaveGroup(_group);
 		if(_user.getGroup().size() == 0){
@@ -186,6 +138,9 @@ public class GroupManager {
 		}
 		
 		for(Group g : groups) {
+			//@ assert g != null;
+			//@ assert g.getId() != null;
+			//@ assert g.getName() != null;
 			text += "======> Group " + g.getId() + ": " + g.getName() + "\n";
 			text += g.listUsers();
 			text += "\n";
