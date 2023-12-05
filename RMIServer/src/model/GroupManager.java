@@ -26,7 +26,6 @@ public class GroupManager {
 	//@ requires _group != null;
 	//@ requires _group.getId() != null;
 	//@ requires _group.getName() != null;
-	//@ requires findGroup(_group.getName()) == null;
 	//@ ensures groups.size() >= \old(groups.size());
 	public String createGroup(Group _group) {
 
@@ -47,7 +46,6 @@ public class GroupManager {
 	//@ requires group.getName() != null;
 	//@ requires user != null;
 	//@ requires user.getName() != null;
-	//@ requires \forall int i; 0 <= i && i < groups.size(); groups.get(i).getName() != null;
 	//@ ensures \result == true || \result == false;
 	public boolean checkIfUserInGroup(User user, Group group) {
 		for(Group g : groups) {
@@ -63,7 +61,7 @@ public class GroupManager {
 	//@ requires _name != null;
 	// @ signals_only RemoteException;
 	//@ pure
-	public Group findGroup(String _name) throws RemoteException{
+	public Group findGroup(String _name) throws RemoteException {
 		for(Group g : groups) {
 			if(g.getName().equals(_name)) return g;
 		}
@@ -99,7 +97,6 @@ public class GroupManager {
 	//@ requires _group != null;
 	//@ requires _user.getName() != null;
 	//@ requires _group.getName() != null;
-	//@ requires _user.findGroup(_group) == -1;
 	public String addUserToGroup(User _user, Group _group) {
 		_group.addUser(_user);
 		_user.joinGroup(_group);

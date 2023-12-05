@@ -29,7 +29,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         groupManager = new GroupManager();
     }
 
-    //@ requires client != null && username != null;
+    //@ also requires client != null && username != null;
     //@ requires groupManager != null && clients != null;
     //@ ensures \result == true || \result == false;
     //@ ensures (\result == true) ==> (clients.size() == \old(clients.size()) + 1);
@@ -42,10 +42,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             return false;
         }
         clients.add(client);
-        User new_user = new User();
-        new_user.setId(clients.indexOf(client));
-        new_user.setName(username);
-        groupManager.addUserWithoutGroup(new_user);
+        groupManager.addUserWithoutGroup(new User(clients.indexOf(client), username));
         System.out.println("Novo cliente registrado com sucesso! Total: " + clients.size());
         return true;
     }
@@ -57,10 +54,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 	
 	@Override
 	public String createGroup(String name) throws RemoteException {
-		Group g = new Group();
-		g.setName(name);
-		g.setId(groupManager.getGroups().size());
-		return groupManager.createGroup(g);
+		return groupManager.createGroup(new Group(groupManager.getGroups().size(), name));
 	}
 	
 	@Override
