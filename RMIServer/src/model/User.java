@@ -73,9 +73,11 @@ public class User {
 	//@ requires id != null;
 	//@ requires id >= 0;
 	//@ ensures this.id.equals(id);
+	//@ assignable this.id;
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	//@ ensures \result == name;
 	//@ pure
 	public String getName() {
@@ -85,9 +87,11 @@ public class User {
 	//@ requires name != null;
 	//@ requires name.length() > 2;
 	//@ ensures this.name.equals(name);
+	//@ assignable this.name;
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	//@ ensures \result == groups;
 	//@ pure
 	public ArrayList<Group> getGroup() {
@@ -96,6 +100,7 @@ public class User {
 
 	//@ requires group != null;
 	//@ ensures this.groups.equals(group);
+	//@ assignable this.groups;
 	public void setGroup(ArrayList<Group> group) {
 		this.groups = group;
 	}

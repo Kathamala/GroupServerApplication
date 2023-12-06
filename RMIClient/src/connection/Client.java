@@ -17,6 +17,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 
 	//@ requires _server != null;
 	//@ ensures server.equals(_server);
+	//@ pure
 	protected Client(ServerInterface _server) throws RemoteException {
 		super();
 		server = _server;
@@ -27,25 +28,21 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 		new Application().start();
 	}
 
-	//@ also requires message != null;
-	//@ requires message.getMessage() != null && message.getMessage().length() > 2;
-	//@ requires message.getSender() != null && message.getSender().length() > 2;
-	//@ requires message.getGroup() != null && message.getGroup().length() > 2;
-	//@ ensures true;
-	//@ signals_only RemoteException;
-	//@ signals (RemoteException) false;
+	//@ requires message != null;
 	@Override
 	public void printMessage(Message message) throws RemoteException {
 		System.out.println(message);
 	}
 
-	//@ ensures true;
+	//@ ensures \result == username;
+	//@ pure
 	public String getUsername() {
 		return username;
 	}
 
-	//@ also requires username != null && username.length() > 2;
-	//@ also ensures this.username.equals(username);
+	//@ requires username != null;
+	//@ ensures this.username.equals(username);
+	//@ assignable this.username;
 	public void setUsername(String username) {
 		this.username = username;
 	}

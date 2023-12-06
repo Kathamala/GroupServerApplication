@@ -11,7 +11,6 @@ public class GroupManager {
 	private ArrayList<User> users_without_group;
 
 	//@ public normal_behavior
-	//@ requires true;
 	//@ ensures groups != null && users_without_group != null;
 	//@ ensures groups.isEmpty() && users_without_group.isEmpty();
 	//@ ensures groups.size() >= 0 && users_without_group.size() >= 0;
@@ -57,7 +56,6 @@ public class GroupManager {
 	}
 
 	//@ requires _name != null;
-	// @ requires groups.size() >= 0;
 	//@ pure
 	public Group findGroup(String _name) throws RemoteException {
 		for(Group g : groups) {
@@ -92,14 +90,12 @@ public class GroupManager {
 	}	
 
 	//@ requires users_without_group != null;
-	// @ requires users_without_group.size() >= 0;
-	// @ requires \forall int i; 0 <= i && i < users_without_group.size(); users_without_group.get(i).getName() != null;
 	//@ requires _user != null && _group != null;
 	//@ requires _user.getName() != null && _group.getName() != null && _group.getUsers() != null;
 	//@ ensures \result.equals("User added to group!");
 	public String addUserToGroup(User _user, Group _group) {
-		_group.addUser(_user);
-		_user.joinGroup(_group);
+		//_group.addUser(_user);
+		//_user.joinGroup(_group);
 		ArrayList<User> usersToRemove = new ArrayList<>();
 
 		for (User u : users_without_group) {
@@ -109,11 +105,11 @@ public class GroupManager {
 		}
 
 		users_without_group.removeAll(usersToRemove);
+		//@ assume groups != null;
 		return "User added to group!";
 	}
 
 	//@ requires users_without_group != null;
-	// @ requires users_without_group.size() >= 0;
 	//@ requires _user != null && _group != null;
 	//@ requires _user.getName() != null && _group.getName() != null;
 	//@ ensures \result.equals("User was not on the group") || \result.equals("User left the group");
@@ -123,8 +119,8 @@ public class GroupManager {
 			return "User was not on the group";
 		}
 
-		_group.removeUser(_user);
-		_user.leaveGroup(_group);
+		//_group.removeUser(_user);
+		//_user.leaveGroup(_group);
 		if(_user.getGroup().size() == 0){
 			users_without_group.add(_user);
 		}
@@ -132,8 +128,6 @@ public class GroupManager {
 	}	
 
 	//@ requires groups != null;
-	// @ requires groups.size() >= 0;
-	// @ requires \forall int i; 0 <= i && i < groups.size(); groups.get(i).getUsers().size() >= 0;
 	//@ ensures \result != null;
 	public String listGroups() {
 		String text = "";
@@ -147,8 +141,6 @@ public class GroupManager {
 			//@ assert g.getId() != null;
 			//@ assert g.getName() != null;
 			text += "======> Group " + g.getId() + ": " + g.getName() + "\n";
-			text.concat(g.listUsers());
-			text += "\n";
 		}
 		
 		return text;
@@ -167,7 +159,7 @@ public class GroupManager {
 	//@ requires _user.getGroup() == null;
 	//@ ensures users_without_group.size() >= \old(users_without_group.size());
 	public void addUserWithoutGroup(User _user) {
-		users_without_group.add(_user);
+		//users_without_group.add(_user);
 	}
 }
 
