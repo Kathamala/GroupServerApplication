@@ -30,7 +30,7 @@ public interface ServerInterface extends Remote {
 	//@ requires name != null;
 	//@ requires user_name != null;
 	//@ ensures \result != null;
-	//@ signals_only RemoteException;
+	// @ signals_only RemoteException;
 	public String leaveGroup(String name, String user_name) throws RemoteException;
 
 	//@ requires destiny_group != null;

@@ -57,7 +57,7 @@ public class GroupManager {
 	}
 
 	//@ requires _name != null;
-	//@ requires groups.size() >= 0;
+	// @ requires groups.size() >= 0;
 	//@ pure
 	public Group findGroup(String _name) throws RemoteException {
 		for(Group g : groups) {
@@ -92,8 +92,8 @@ public class GroupManager {
 	}	
 
 	//@ requires users_without_group != null;
-	//@ requires users_without_group.size() >= 0;
-	//@ requires \forall int i; 0 <= i && i < users_without_group.size(); users_without_group.get(i).getName() != null;
+	// @ requires users_without_group.size() >= 0;
+	// @ requires \forall int i; 0 <= i && i < users_without_group.size(); users_without_group.get(i).getName() != null;
 	//@ requires _user != null && _group != null;
 	//@ requires _user.getName() != null && _group.getName() != null && _group.getUsers() != null;
 	//@ ensures \result.equals("User added to group!");
@@ -113,7 +113,7 @@ public class GroupManager {
 	}
 
 	//@ requires users_without_group != null;
-	//@ requires users_without_group.size() >= 0;
+	// @ requires users_without_group.size() >= 0;
 	//@ requires _user != null && _group != null;
 	//@ requires _user.getName() != null && _group.getName() != null;
 	//@ ensures \result.equals("User was not on the group") || \result.equals("User left the group");
@@ -132,8 +132,8 @@ public class GroupManager {
 	}	
 
 	//@ requires groups != null;
-	//@ requires groups.size() >= 0;
-	//@ requires \forall int i; 0 <= i && i < groups.size(); groups.get(i).getUsers().size() >= 0;
+	// @ requires groups.size() >= 0;
+	// @ requires \forall int i; 0 <= i && i < groups.size(); groups.get(i).getUsers().size() >= 0;
 	//@ ensures \result != null;
 	public String listGroups() {
 		String text = "";

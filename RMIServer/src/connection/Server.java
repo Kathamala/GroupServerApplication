@@ -34,7 +34,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     //@ ensures (\result == true) ==> (clients.size() == \old(clients.size()) + 1);
     //@ ensures (\result == true) ==> (clients.get(\old(clients.size()+1)) == clients.get(clients.size()));
     //@ ensures (\result == false) ==> clients.size() == \old(clients.size());
-    //@ ensures (\result == true || \result == false) ==> (\forall int i; 0 <= i && i < \old(clients.size()); clients.get(i) == \old(clients.get(i)));
+    // @ ensures (\result == true || \result == false) ==> (\forall int i; 0 <= i && i < \old(clients.size()); clients.get(i) == \old(clients.get(i)));
     @Override
     public boolean registerClient(ClientInterface client, String username) throws RemoteException {
         if (groupManager.findUser(username) != null) {
