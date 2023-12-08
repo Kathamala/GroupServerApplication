@@ -55,6 +55,11 @@ public class User {
 	//@ ensures \result >= -1 && \result < groups.size();
 	//@ pure
 	public int findGroup(Group _group) {
+		//@ maintaining 0 <= i <= groups.size();
+		//@ maintaining (\forall int k; 0 <= k && k < i; !groups.get(k).getName().equals(_group.getName()));
+		//@ loop_writes i;
+		//@ loop_modifies \nothing;
+		//@ decreases groups.size() - i;
 		for(int i = 0; i < groups.size(); i++) {
 			if(groups.get(i).getName().equals(_group.getName())) {
 				return i;

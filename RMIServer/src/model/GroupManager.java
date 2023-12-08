@@ -105,7 +105,6 @@ public class GroupManager {
 		}
 
 		users_without_group.removeAll(usersToRemove);
-		//@ assume groups != null;
 		return "User added to group!";
 	}
 

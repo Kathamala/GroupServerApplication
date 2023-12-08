@@ -44,6 +44,10 @@ public class Group {
 	//@ ensures \result >= -1 && \result < users.size();
 	//@ pure
 	public int findUserIndex(User _user) {
+		//@ maintaining 0 <= i <= users.size();
+		//@ maintaining (\forall int k; 0 <= k && k < i; !users.get(k).equals(_user));
+		//@ loop_writes i;
+		//@ decreases users.size() - i;
 		for(int i=0; i<users.size(); i++) {
 			if(users.get(i).equals(_user)) {
 				return i;

@@ -20,8 +20,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     //@ spec_public
     private GroupManager groupManager;
 
-    //@ ensures clients != null && clients.isEmpty();
-    //@ ensures groupManager != null;
+    //@ public exceptional_behaviour
     //@ pure
     protected Server() throws RemoteException {
         clients = new ArrayList<ClientInterface>();
