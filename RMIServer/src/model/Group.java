@@ -16,6 +16,7 @@ public class Group {
 	//@ requires id >= 0 && id <= Integer.MAX_VALUE;
 	//@ ensures this.name.equals(name);
 	//@ ensures this.id == id;
+	//@ pure
 	public Group(int id, String name) {
 		super();
 		this.id = id;
@@ -82,6 +83,7 @@ public class Group {
 	//@ requires id != null;
 	//@ requires id >= 0 && id <= Integer.MAX_VALUE;
 	//@ ensures this.id.equals(id);
+	//@ assignable this.id;
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -94,6 +96,7 @@ public class Group {
 
 	//@ requires name != null;
 	//@ ensures this.name.equals(name);
+	//@ assignable this.name;
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -109,6 +112,7 @@ public class Group {
 	//@ requires \forall int i; 0 <= i && i < users.size(); users.get(i) != null;
 	//@ requires \forall int i; 0 <= i && i < users.size(); users.get(i).getName() != null;
 	//@ ensures this.users.equals(users);
+	//@ assignable this.users;
 	public void setUsers(ArrayList<User> users) {
 		this.users = users;
 	}

@@ -11,7 +11,7 @@ public class User {
 	private ArrayList<Group> groups = new ArrayList<Group>();
 
 	//@ public normal_behavior
-	//@ requires name != null && name.length() > 2;
+	//@ requires name != null;
 	//@ requires id >= 0 && id <= Integer.MAX_VALUE;
 	//@ ensures this.name.equals(name);
 	//@ ensures this.id == id;
@@ -90,7 +90,6 @@ public class User {
 	}
 
 	//@ requires name != null;
-	//@ requires name.length() > 2;
 	//@ ensures this.name.equals(name);
 	//@ assignable this.name;
 	public void setName(String name) {

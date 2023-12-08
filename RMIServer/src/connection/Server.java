@@ -27,12 +27,16 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         groupManager = new GroupManager();
     }
 
-    //@ requires client != null && username != null;
-    //@ requires groupManager != null && clients != null;
-    //@ ensures \result == true || \result == false;
-    //@ ensures (\result == true) ==> (clients.size() == \old(clients.size()) + 1);
-    //@ ensures (\result == true) ==> (clients.get(\old(clients.size()+1)) == clients.get(clients.size()));
-    //@ ensures (\result == false) ==> clients.size() == \old(clients.size());
+	//@  requires client != null && username != null && groupManager != null && clients != null;
+	//@  requires groupManager.findUser(username) != null;
+	//@  ensures \result == false;
+	//@  ensures clients.size() == \old(clients.size());
+	//@ also
+	//@  requires client != null && username != null && groupManager != null && clients != null;
+	//@  requires groupManager.findUser(username) == null;
+	//@  ensures \result == true;
+	//@  ensures clients.size() == \old(clients.size()) + 1;
+	//@  ensures clients.get(\old(clients.size()+1)) == clients.get(clients.size());
     @Override
     public boolean registerClient(ClientInterface client, String username) throws RemoteException {
         if (groupManager.findUser(username) != null) {
